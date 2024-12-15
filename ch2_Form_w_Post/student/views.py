@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from student.forms import StudentForm
+
 
 # Create your views here.
 
@@ -18,6 +19,7 @@ def register(req):
             print('email:', email)
             print('address :', address)
 
+            return redirect('/student/register/')
         # print(req.POST)  #to see the data we entered in the form
         # print(req.POST['email']) to see data individually
         # print(req.POST['first_name'])

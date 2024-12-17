@@ -14,9 +14,8 @@ def register(req):
             print('Name : ', name)
             print('email : ', email)
             print('Password : ', password)
-
-          
         return redirect('/student/register/')
+    
     else:
         fm = StudentRegistration()
     return render (req, 'student/registration.html', {'form':fm})

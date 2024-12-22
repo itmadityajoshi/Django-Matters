@@ -13,6 +13,10 @@ def home(req):
             pr = Profile(name=name, email=email, password=password)
             pr.save()
 
+            # to delete the record 
+            # pr = Profile(id=1)
+            # pr.save()
+
             print('Name : ', name)
             print('email : ', email)
             print('Password : ', password)

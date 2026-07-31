@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Person
-
-class PersonSerializer(serializers.Serializer):
+# serializer class is used here
+""" class PersonSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     age = serializers.IntegerField()
     city = serializers.CharField(max_length = 150) 
@@ -15,4 +15,11 @@ class PersonSerializer(serializers.Serializer):
         instance.age = validated_data.get("age", instance.age)
         instance.city = validated_data.get("city", instance.city)
         instance.save()
-        return instance
+        return instance """
+
+# ModelSerializer is used here -> in this create()and update() will run automatically 
+
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = "__all__"

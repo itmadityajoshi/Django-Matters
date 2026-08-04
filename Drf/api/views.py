@@ -46,13 +46,17 @@ def singleobj(req, id):
 def multipleobj(req):
     if req.method == "POST":
         # json = req.body ===> req.body 
-        stream = io.BytesIO(req.body)
-        parsed_data = JSONParser().parse(stream)
+        # stream = io.BytesIO(req.body)
+        # parsed_data = JSONParser().parse(stream)
+        parsed_data = req.data
         serializer = PersonSerializer(data=parsed_data)  #here the data=arguments are dentoed as the serializer know, it wil deserialize the client requested raw data
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"Created":"Successful"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response({"Created":"Successful"}, status=status.HTTP_201_CREATED)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(({"created":":successfull"}), status= status.HTTP_400_BAD_REQUEST)
         # print(parsed_data)
         # print(type(parsed_data))
 

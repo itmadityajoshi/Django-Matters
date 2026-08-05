@@ -16,31 +16,42 @@ from rest_framework.response import Response
 def singleobj(req, id):
     data = Person.objects.get(id=id)
     if req.method == "PUT":
-        stream = io.BytesIO(req.body)
-        parsed_data = JSONParser().parse(stream)
+        # stream = io.BytesIO(req.body)
+        # parsed_data = JSONParser().parse(stream)
+        parsed_data = req.data
         serializer = PersonSerializer(data, data=parsed_data) #first data is model object and second data is the our db data that we shared
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"Update":"Success"})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response({"Update":"Success"})
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(({"Update":"Success"}), status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
     if req.method == "PATCH":
-        stream = io.BytesIO(req.body)
-        parsed_data = JSONParser().parse(stream)
-        serializer = PersonSerializer(data, data=parsed_data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"update":"success"})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # stream = io.BytesIO(req.body)
+        # parsed_data = JSONParser().parse(stream)
+        # serializer = PersonSerializer(data, data=parsed_data, partial=True)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response({"update":"success"})
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        parsed_data = req.data
+        serializer = PersonSerializer(data, data= parsed_data, partial= True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"update":"success"}, status=status.HTTP_200_OK)
 
-    if req.method == 'GET':
-        serializer = PersonSerializer(data)
-        # print(serializer.data)
-        # json_data = JSONRenderer().render(serializer.data)
-        # return HttpResponse(json_data, content_type = 'application/json')
-        return Response(serializer.data)
+    
+    # if req.method == 'GET':
+    #     serializer = PersonSerializer(data)
+    #     # print(serializer.data)
+    #     # json_data = JSONRenderer().render(serializer.data)
+    #     # return HttpResponse(json_data, content_type = 'application/json')
+    #     return Response(serializer.data)
     
 @api_view(['GET','POST'])
 def multipleobj(req):

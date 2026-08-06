@@ -1,4 +1,3 @@
-
 from django.shortcuts import render
 from .models import Person
 from .serializers import PersonSerializer
@@ -12,24 +11,24 @@ from rest_framework.response import Response
 
 # Create your views here.
 
-@api_view(['GET','PUT','PATCH'])
+
+@api_view(["GET", "PUT", "PATCH"])
 def singleobj(req, id):
     data = Person.objects.get(id=id)
     if req.method == "PUT":
         # stream = io.BytesIO(req.body)
         # parsed_data = JSONParser().parse(stream)
         parsed_data = req.data
-        serializer = PersonSerializer(data, data=parsed_data) #first data is model object and second data is the our db data that we shared
+        serializer = PersonSerializer(
+            data, data=parsed_data
+        )  # first data is model object and second data is the our db data that we shared
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response({"Update":"Success"})
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(({"Update":"Success"}), status=status.HTTP_400_BAD_REQUEST)
-
-
-
+        return Response(({"Update": "Success"}), status=status.HTTP_400_BAD_REQUEST)
 
     if req.method == "PATCH":
         # stream = io.BytesIO(req.body)
@@ -40,37 +39,40 @@ def singleobj(req, id):
         #     return Response({"update":"success"})
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         parsed_data = req.data
-        serializer = PersonSerializer(data, data= parsed_data, partial= True)
+        serializer = PersonSerializer(data, data=parsed_data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({"update":"success"}, status=status.HTTP_200_OK)
+        return Response({"update": "success"}, status=status.HTTP_200_OK)
 
-    
     # if req.method == 'GET':
     #     serializer = PersonSerializer(data)
     #     # print(serializer.data)
     #     # json_data = JSONRenderer().render(serializer.data)
     #     # return HttpResponse(json_data, content_type = 'application/json')
     #     return Response(serializer.data)
-    
-@api_view(['GET','POST'])
+
+
+@api_view(["GET", "POST"])
 def multipleobj(req):
     if req.method == "POST":
-        # json = req.body ===> req.body 
+        # json = req.body ===> req.body
         # stream = io.BytesIO(req.body)
         # parsed_data = JSONParser().parse(stream)
         parsed_data = req.data
-        serializer = PersonSerializer(data=parsed_data)  #here the data=arguments are dentoed as the serializer know, it wil deserialize the client requested raw data
+        serializer = PersonSerializer(
+            data=parsed_data
+        )  # here the data=arguments are dentoed as the serializer know, it wil deserialize the client requested raw data
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response({"Created":"Successful"}, status=status.HTTP_201_CREATED)
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(({"created":":successfull"}), status= status.HTTP_400_BAD_REQUEST)
+        return Response(
+            ({"created": ":successfull"}), status=status.HTTP_400_BAD_REQUEST
+        )
         # print(parsed_data)
         # print(type(parsed_data))
-
 
     if req.method == "GET":
         data = Person.objects.all()

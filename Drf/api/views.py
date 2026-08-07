@@ -77,4 +77,4 @@ def multipleobj(req):
     if req.method == "GET":
         data = Person.objects.all()
         serializer = PersonSerializer(data, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
